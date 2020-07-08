@@ -1,6 +1,6 @@
 using System;
 
-namespace BoardGamesService.DTOs
+namespace BoardGamesServices.DTOs
 {
     public readonly struct BoardGameLastDisplaysDto
     {

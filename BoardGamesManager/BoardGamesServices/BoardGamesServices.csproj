@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\EfCoreData\EfCoreData.csproj" />
+      <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\Models\Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\BoardGame" />
+      <Folder Include="Services\BoardGameLastDisplays" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="10.0.0" />
+    </ItemGroup>
+
+</Project>
