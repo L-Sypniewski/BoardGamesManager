@@ -1,4 +1,4 @@
-namespace BoardGamesService.DTOs
+namespace BoardGamesServices.DTOs
 {
     public readonly struct BoardGameDto
     {
@@ -15,7 +15,7 @@ namespace BoardGamesService.DTOs
         public BoardGameDto(int boardGameId, string name, byte minPlayers, byte maxPlayers, byte minRecommendedAge)
         {
             BoardGameId = boardGameId;
-            Name = name.Trim();
+            Name = name;
             MinPlayers = minPlayers;
             MaxPlayers = maxPlayers;
             MinRecommendedAge = minRecommendedAge;
