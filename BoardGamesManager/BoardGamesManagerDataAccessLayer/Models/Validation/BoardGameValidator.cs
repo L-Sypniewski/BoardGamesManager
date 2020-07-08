@@ -8,7 +8,19 @@ namespace Models.Validation
         {
             RuleFor(boardGame => boardGame.Name)
                 .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(60);
+
+            RuleFor(boardGame => boardGame.MinPlayers)
+                .GreaterThanOrEqualTo((byte) 1);
+
+            RuleFor(boardGame => boardGame.MaxPlayers)
+                .GreaterThanOrEqualTo((byte) 1);
+
+            RuleFor(boardGame => boardGame.MinRecommendedAge)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .LessThanOrEqualTo((byte) 18)
+                .GreaterThanOrEqualTo((byte) 3);
         }
     }
 }
