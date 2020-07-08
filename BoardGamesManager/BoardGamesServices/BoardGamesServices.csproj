@@ -2,20 +2,18 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\EfCoreData\EfCoreData.csproj" />
-      <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\Models\Models.csproj" />
+        <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\EfCoreData\EfCoreData.csproj" />
+        <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\Models\Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\BoardGame" />
-      <Folder Include="Services\BoardGameLastDisplays" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="10.0.0" />
+        <PackageReference Include="AutoMapper" Version="10.0.0" />
+        <PackageReference Include="System.Linq.Async" Version="4.1.1" />
     </ItemGroup>
 
 </Project>

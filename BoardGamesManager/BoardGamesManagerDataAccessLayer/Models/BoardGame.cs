@@ -4,17 +4,23 @@
     {
         public int BoardGameId { get; private set; }
 
-        public string Name { get; }
+        private string _name;
 
-        public byte MinPlayers { get; }
+        public string Name
+        {
+            get => _name;
+            set => Name = value.Trim();
+        }
 
-        public byte MaxPlayers { get; }
+        public byte MinPlayers { get; set; }
 
-        public byte MinRecommendedAge { get; }
+        public byte MaxPlayers { get; set; }
+
+        public byte MinRecommendedAge { get; set; }
 
         public BoardGame(string name, byte minPlayers, byte maxPlayers, byte minRecommendedAge)
         {
-            Name = name.Trim();
+            Name = name;
             MinPlayers = minPlayers;
             MaxPlayers = maxPlayers;
             MinRecommendedAge = minRecommendedAge;

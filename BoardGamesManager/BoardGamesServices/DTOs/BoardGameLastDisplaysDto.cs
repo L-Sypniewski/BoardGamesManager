@@ -4,11 +4,13 @@ namespace BoardGamesServices.DTOs
 {
     public readonly struct BoardGameLastDisplaysDto
     {
-        public DateTimeOffset DisplayDatetime { get; }
-        public string Source { get; }
+        private readonly int _boardGameId;
+        public readonly DateTimeOffset DisplayDatetime;
+        public readonly string Source;
 
-        public BoardGameLastDisplaysDto(DateTimeOffset displayDatetime, string source)
+        public BoardGameLastDisplaysDto(int boardGameId, DateTimeOffset displayDatetime, string source)
         {
+            _boardGameId = boardGameId;
             DisplayDatetime = displayDatetime;
             Source = source;
         }
