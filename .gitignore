@@ -289,3 +289,4 @@ __pycache__/
 *.code-workspace
 
 appsettings.json
+appsettings.development.json
