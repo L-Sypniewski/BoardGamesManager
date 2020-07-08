@@ -5,7 +5,7 @@ using Models;
 
 namespace EfCoreData.Configurations
 {
-    internal class BoardGameConfiguration : IEntityTypeConfiguration<BoardGame>
+    internal sealed class BoardGameConfiguration : IEntityTypeConfiguration<BoardGame>
     {
         public void Configure(EntityTypeBuilder<BoardGame> builder)
         {

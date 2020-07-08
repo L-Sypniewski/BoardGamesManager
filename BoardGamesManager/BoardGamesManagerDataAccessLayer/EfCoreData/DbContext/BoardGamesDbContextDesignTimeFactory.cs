@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace EfCoreData.DbContext
 {
-    public class BoardGamesDbContextDesignTimeFactory : IDesignTimeDbContextFactory<BoardGamesDbContext>
+    public sealed class BoardGamesDbContextDesignTimeFactory : IDesignTimeDbContextFactory<BoardGamesDbContext>
     {
         public BoardGamesDbContext CreateDbContext(string[] args)
         {
@@ -18,8 +18,11 @@ namespace EfCoreData.DbContext
                                 .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                                 .Build();
 
-            var options = new BoardGamesDbContextOptionsFactory(configuration).Create();
-            return new BoardGamesDbContext(options);
+            var boardGamesDbOptions = configuration.GetSection(BoardGamesDbOptions.BoardGamesDb)
+                                                   .Get<BoardGamesDbOptions>();
+
+            var dbContextOptions = new BoardGamesDbContextOptionsFactory(boardGamesDbOptions).Create();
+            return new BoardGamesDbContext(dbContextOptions);
         }
     }
 }

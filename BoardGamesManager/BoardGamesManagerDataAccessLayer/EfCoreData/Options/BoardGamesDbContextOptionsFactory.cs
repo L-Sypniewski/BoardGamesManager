@@ -1,21 +1,18 @@
 using System;
 using EfCoreData.DbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace EfCoreData.Options
 {
     public sealed class BoardGamesDbContextOptionsFactory
     {
-        public const string BoardGamesEfCore = "BoardGameEfCore";
         private string ConnectionString { get; }
         private DatabaseType Database { get; }
 
-
-        public BoardGamesDbContextOptionsFactory(IConfiguration configuration)
+        public BoardGamesDbContextOptionsFactory(BoardGamesDbOptions options)
         {
-            ConnectionString = configuration.GetConnectionString("Default");
-            Database = Enum.Parse<DatabaseType>(configuration["Database"]);
+            ConnectionString = options.ConnectionString;
+            Database = Enum.Parse<DatabaseType>(options.Database);
         }
 
         public DbContextOptions<BoardGamesDbContext> Create()

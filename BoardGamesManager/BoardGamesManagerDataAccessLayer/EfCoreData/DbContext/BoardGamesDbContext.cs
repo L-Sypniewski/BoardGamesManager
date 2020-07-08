@@ -4,7 +4,7 @@ using Models;
 
 namespace EfCoreData.DbContext
 {
-    public class BoardGamesDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public sealed class BoardGamesDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<BoardGame> BoardGames { get; set; }
 
