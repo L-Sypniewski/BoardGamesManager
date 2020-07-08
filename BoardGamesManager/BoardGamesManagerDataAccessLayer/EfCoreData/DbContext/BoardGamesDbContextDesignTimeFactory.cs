@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using EfCoreData.Options;
 using Microsoft.EntityFrameworkCore.Design;
@@ -9,9 +10,12 @@ namespace EfCoreData.DbContext
     {
         public BoardGamesDbContext CreateDbContext(string[] args)
         {
+            var environmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production";
+
             var configuration = new ConfigurationBuilder()
                                 .SetBasePath(Directory.GetCurrentDirectory())
                                 .AddJsonFile("appsettings.json")
+                                .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                                 .Build();
 
             var options = new BoardGamesDbContextOptionsFactory(configuration).Create();
