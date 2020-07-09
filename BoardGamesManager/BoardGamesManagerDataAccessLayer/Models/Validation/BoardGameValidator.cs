@@ -14,6 +14,8 @@ namespace Models.Validation
             RuleFor(boardGame => boardGame.MinPlayers)
                 .GreaterThanOrEqualTo((byte) 1);
 
+                //TODO I forgot to ensure that maxPlayers number is not lesser than minPlayers number, to be fixed
+
             RuleFor(boardGame => boardGame.MaxPlayers)
                 .GreaterThanOrEqualTo((byte) 1);
 
