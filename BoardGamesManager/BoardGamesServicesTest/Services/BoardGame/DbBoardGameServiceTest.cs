@@ -35,7 +35,7 @@ namespace BoardGamesServicesTest.Services.BoardGame
             _mapperMock.Setup(mock => mock.Map<BoardGameDto>(It.IsAny<Models.BoardGame>()))
                        .Returns<Models.BoardGame>(boardGame => DtoWithName(boardGame.Name));
 
-            // _dbContext.BoardGames.AddRange(TestBoardGames);
+            // _dbContext.BoardGames.AddRange(TestBoardGames); //TODO this line causes stackoverflow
             var s = _dbContext.BoardGames.ToArray();
 
             var actualBoardGames = _sut.GetAllBoardGames().ToArrayAsync().Result;
