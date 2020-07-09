@@ -3,7 +3,7 @@ using FluentAssertions.Execution;
 using Models;
 using Xunit;
 
-namespace ModelTest
+namespace ModelsTest
 {
     public class BoardGameTest
     {

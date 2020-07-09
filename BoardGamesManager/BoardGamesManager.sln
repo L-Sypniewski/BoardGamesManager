@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardGamesManagerMvc", "Boa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardGamesManagerMvcTest", "BoardGamesManagerMvc\BoardGamesManagerMvcTest\BoardGamesManagerMvcTest.csproj", "{225266BD-810C-4A7D-990E-85267FC9A5F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelTest", "BoardGamesManagerDataAccessLayer\ModelTest\ModelTest.csproj", "{D3933031-CDE7-4BD6-A1DB-B2B9C9EDFE05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelsTest", "BoardGamesManagerDataAccessLayer\ModelsTest\ModelsTest.csproj", "{D3933031-CDE7-4BD6-A1DB-B2B9C9EDFE05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoardGamesManagerServices", "BoardGamesManagerServices", "{5E6245B0-7E6A-4B60-8580-F628EA4EF307}"
 EndProject

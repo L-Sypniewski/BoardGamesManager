@@ -2,7 +2,7 @@
 {
     public class BoardGame
     {
-        public int BoardGameId { get; private set; }
+        public int BoardGameId { get; set; }
 
         private string _name;
 

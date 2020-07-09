@@ -5,7 +5,7 @@ using Models;
 using Models.Validation;
 using Xunit;
 
-namespace ModelTest.Validation
+namespace ModelsTest.Validation
 {
     public class BoardGameValidatorTest
     {
