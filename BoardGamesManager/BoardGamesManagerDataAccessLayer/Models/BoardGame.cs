@@ -5,11 +5,10 @@
         public int BoardGameId { get; set; }
 
         private string _name;
-
         public string Name
         {
             get => _name;
-            set => Name = value.Trim();
+            set => _name = value.Trim();
         }
 
         public byte MinPlayers { get; set; }

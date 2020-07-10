@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using BoardGamesManagerCore.Model.Validation;
 using FluentAssertions;
 using Models;
-using Models.Validation;
 using Xunit;
+using Xunit.Sdk;
 
-namespace ModelsTest.Validation
+namespace BoardGamesManagerCoreTest.Model.Validation
 {
     public class BoardGameValidatorTest
     {
@@ -146,6 +147,35 @@ namespace ModelsTest.Validation
                 .IsValid
                 .Should()
                 .Be(nameHasCorrectLength, $"for {nameof(BoardGame)}s name of length equal to {stringLength} validation should equal {nameHasCorrectLength}");
+        }
+
+        [Theory(DisplayName = "When validated BoardGame has maximum amount lesser than minimum amount of layers result should be invalid")]
+        [InlineData(2, 1)]
+        [InlineData(byte.MaxValue, 1)]
+        [InlineData(11, 10)]
+        [InlineData(byte.MaxValue, byte.MaxValue - 1)]
+        public void When_validated_BoardGame_has_maximum_amount_of_players_lesser_than_minimum_amount_of_players_result_should_be_invalid(byte minAmountOfPlayers,
+                                                                                                                                          byte maxAmountOfPlayers)
+        {
+            if (maxAmountOfPlayers >= minAmountOfPlayers)
+            {
+                var exceptionMessage = $"{nameof(maxAmountOfPlayers)} has to be lesser than {nameof(minAmountOfPlayers)} in the test";
+                throw new XunitException(exceptionMessage);
+            }
+
+            var boardGame = new BoardGameBuilder()
+                            .WithMaxPlayers(maxAmountOfPlayers)
+                            .WithMinPlayers(minAmountOfPlayers)
+                            .Build();
+            ;
+
+            var validationResult = _sut.Validate(boardGame);
+
+
+            validationResult
+                .IsValid
+                .Should()
+                .BeFalse($"{nameof(BoardGame)} cannot have maximum amount of players lesser than minimum amount of players");
         }
     }
 }

@@ -1,6 +1,7 @@
 using FluentValidation;
+using Models;
 
-namespace Models.Validation
+namespace BoardGamesManagerCore.Model.Validation
 {
     public class BoardGameValidator : AbstractValidator<BoardGame>
     {
@@ -14,7 +15,9 @@ namespace Models.Validation
             RuleFor(boardGame => boardGame.MinPlayers)
                 .GreaterThanOrEqualTo((byte) 1);
 
-                //TODO I forgot to ensure that maxPlayers number is not lesser than minPlayers number, to be fixed
+            RuleFor(boardGame => boardGame)
+                .Must(MinPlayersIsLessThanOrEqualToMaxPlayers)
+                .WithMessage($"{nameof(BoardGame)} cannot have maximum amount of players lesser than minimum amount of players");
 
             RuleFor(boardGame => boardGame.MaxPlayers)
                 .GreaterThanOrEqualTo((byte) 1);
@@ -24,5 +27,7 @@ namespace Models.Validation
                 .LessThanOrEqualTo((byte) 18)
                 .GreaterThanOrEqualTo((byte) 3);
         }
+
+        private static bool MinPlayersIsLessThanOrEqualToMaxPlayers(BoardGame boardGame) => boardGame.MinPlayers <= boardGame.MaxPlayers;
     }
 }
