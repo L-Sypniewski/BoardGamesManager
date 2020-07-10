@@ -11,7 +11,7 @@ namespace EfCoreData.Migrations
                 columns: table => new
                 {
                     BoardGameId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 60, nullable: false),
                     MinPlayers = table.Column<byte>(nullable: false),
                     MaxPlayers = table.Column<byte>(nullable: false),
@@ -23,6 +23,7 @@ namespace EfCoreData.Migrations
                     table.CheckConstraint("min_age_constraint", "MinRecommendedAge >= 3 AND MinRecommendedAge <= 18");
                     table.CheckConstraint("min_players_constraint", "MinPlayers >= 1");
                     table.CheckConstraint("max_players_constraint", "MaxPlayers >= 1");
+                    table.CheckConstraint("min_players_lesser_or_equal_to_max_player_constraint", "MinPlayers <= MaxPlayers");
                 });
 
             migrationBuilder.CreateIndex(

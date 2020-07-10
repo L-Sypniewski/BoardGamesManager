@@ -14,30 +14,28 @@ namespace EfCoreData.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "3.1.5");
 
             modelBuilder.Entity("Models.BoardGame", b =>
                 {
                     b.Property<int>("BoardGameId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasAnnotation("Sqlite:Autoincrement", true)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<byte>("MaxPlayers")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<byte>("MinPlayers")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<byte>("MinRecommendedAge")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(60)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(60);
 
                     b.HasKey("BoardGameId");
@@ -52,6 +50,8 @@ namespace EfCoreData.Migrations
                     b.HasCheckConstraint("min_players_constraint", "MinPlayers >= 1");
 
                     b.HasCheckConstraint("max_players_constraint", "MaxPlayers >= 1");
+
+                    b.HasCheckConstraint("min_players_lesser_or_equal_to_max_player_constraint", "MinPlayers <= MaxPlayers");
                 });
 #pragma warning restore 612, 618
         }
