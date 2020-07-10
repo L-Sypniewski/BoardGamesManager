@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\BoardGamesManagerCore\BoardGamesManagerCore.csproj" />
         <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\EfCoreData\EfCoreData.csproj" />
         <ProjectReference Include="..\BoardGamesManagerDataAccessLayer\Models\Models.csproj" />
     </ItemGroup>

@@ -1,12 +1,16 @@
 namespace BoardGamesServices.DTOs
 {
-    public readonly struct BoardGameDto
+    public struct BoardGameDto
     {
-        public readonly int BoardGameId;
-        public readonly string Name;
-        public readonly byte MinPlayers;
-        public readonly byte MaxPlayers;
-        public readonly byte MinRecommendedAge;
+        public int BoardGameId { get; set; }
+
+        public string Name { get; set; }
+
+        public byte MinPlayers { get; set; }
+
+        public byte MaxPlayers { get; set; }
+
+        public byte MinRecommendedAge { get; set; }
 
         public BoardGameDto(int boardGameId, string name, byte minPlayers, byte maxPlayers, byte minRecommendedAge)
         {
