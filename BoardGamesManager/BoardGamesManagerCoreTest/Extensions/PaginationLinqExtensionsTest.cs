@@ -38,7 +38,6 @@ namespace BoardGamesManagerCoreTest.Extensions
                 yield return new object[] { 3, 3, new [] { 7 } };
                 yield return new object[] { 1, 7, new [] { 7 } };
             }
-
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
@@ -53,7 +52,7 @@ namespace BoardGamesManagerCoreTest.Extensions
         [ClassData(typeof(PaginationNullPageAndPageSizeTestData))]
         public void When_page_and_pageSize_are_null_then_all_elements_are_returned_from_IQueryable(int? pageSize, int? page, int[] expectedPaginatedResult)
         {
-            TestIEnumerable(_queryableCollection, pageSize, page, expectedPaginatedResult);
+            TestIQueryable(_queryableCollection, pageSize, page, expectedPaginatedResult);
         }
 
         private class PaginationNullPageAndPageSizeTestData : IEnumerable<object[]>
@@ -62,7 +61,6 @@ namespace BoardGamesManagerCoreTest.Extensions
             {
                 yield return new object[] { null, null, new [] { 1, 2, 3, 4, 5, 6, 7 } };
             }
-
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
@@ -77,7 +75,7 @@ namespace BoardGamesManagerCoreTest.Extensions
         [ClassData(typeof(PaginationNullPageTestData))]
         public void When_page_is_null_then_first_elements_of_amount_equal_to_pageSize_are_returned_from_IQueryable(int? pageSize, int? page, int[] expectedPaginatedResult)
         {
-            TestIEnumerable(_queryableCollection, pageSize, page, expectedPaginatedResult);
+            TestIQueryable(_queryableCollection, pageSize, page, expectedPaginatedResult);
         }
 
         private class PaginationNullPageTestData : IEnumerable<object[]>
@@ -89,7 +87,6 @@ namespace BoardGamesManagerCoreTest.Extensions
                 yield return new object[] { 3, null, new [] { 1, 2, 3 } };
                 yield return new object[] { 8, null, new [] { 1, 2, 3, 4, 5, 6, 7 } };
             }
-
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
@@ -104,7 +101,7 @@ namespace BoardGamesManagerCoreTest.Extensions
         [ClassData(typeof(PaginationNullPageSizeTestData))]
         public void When_pageSize_is_null_then_all_elements_regardless_of_provided_page_number_are_returned_from_IQueryable(int? pageSize, int? page, int[] expectedPaginatedResult)
         {
-            TestIEnumerable(_queryableCollection, pageSize, page, expectedPaginatedResult);
+            TestIQueryable(_queryableCollection, pageSize, page, expectedPaginatedResult);
         }
 
         private class PaginationNullPageSizeTestData : IEnumerable<object[]>
@@ -116,7 +113,6 @@ namespace BoardGamesManagerCoreTest.Extensions
                 yield return new object[] { null, 3, new [] { 1, 2, 3, 4, 5, 6, 7 } };
                 yield return new object[] { null, 10, new [] { 1, 2, 3, 4, 5, 6, 7 } };
             }
-
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
@@ -131,7 +127,7 @@ namespace BoardGamesManagerCoreTest.Extensions
         [ClassData(typeof(PaginationPageOutOfRangeSizeTestData))]
         public void When_page_is_out_of_range_empty_then_empty_IQueryable_is_returned(int? pageSize, int? page, int[] expectedPaginatedResult)
         {
-            TestIEnumerable(_queryableCollection, pageSize, page, expectedPaginatedResult);
+            TestIQueryable(_queryableCollection, pageSize, page, expectedPaginatedResult);
         }
 
         private class PaginationPageOutOfRangeSizeTestData : IEnumerable<object[]>
@@ -140,7 +136,6 @@ namespace BoardGamesManagerCoreTest.Extensions
             {
                 yield return new object[] { 1, 8, new int[0] };
             }
-
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
