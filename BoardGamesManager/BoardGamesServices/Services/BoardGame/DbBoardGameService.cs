@@ -47,7 +47,7 @@ namespace BoardGamesServices.Services.BoardGame
 
         public async Task<int> GetBoardGamesCountAsync() 
         {
-            _logger.LogInformation("Getting total number of all BoardGmaes");
+            _logger.LogInformation("Getting total number of all BoardGames");
 
             return await _dbContext.BoardGames
                                  .AsNoTracking()
