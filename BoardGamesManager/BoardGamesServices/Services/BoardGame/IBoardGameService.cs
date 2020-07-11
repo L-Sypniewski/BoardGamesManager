@@ -6,10 +6,11 @@ namespace BoardGamesServices.Services.BoardGame
 {
     public interface IBoardGameService
     {
-        public IAsyncEnumerable<BoardGameDto> GetAllBoardGames();
-        public Task<BoardGameDto> GetBoardGameForId(string boardGameId);
-        public Task<BoardGameDto> DeleteBoardGameWithId(string boardGameId);
-        public Task<BoardGameDto> AddBoardGame(BoardGameDto boardGame);
-        public Task<BoardGameDto> UpdateBoardGame(BoardGameDto boardGame);
+        public IAsyncEnumerable<BoardGameDto> GetBoardGamesAsync(int? limit = null, int? page = null);
+        public Task<int> GetBoardGamesCountAsync();
+        public Task<BoardGameDto> GetBoardGameForIdAsync(string boardGameId);
+        public Task<BoardGameDto> DeleteBoardGameWithIdAsync(string boardGameId);
+        public Task<BoardGameDto> AddBoardGameAsync(BoardGameDto boardGame);
+        public Task<BoardGameDto> UpdateBoardGameAsync(BoardGameDto boardGame);
     }
 }

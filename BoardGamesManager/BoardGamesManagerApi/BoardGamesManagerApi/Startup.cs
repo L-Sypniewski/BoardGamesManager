@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BoardGamesManagerApi.DependencyInjection;
+using BoardGamesManagerApi.Model.Validation;
 using BoardGamesManagerCore.Model.Validation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -32,7 +33,8 @@ namespace BoardGamesManagerApi
 
             //TODO Check if AddMvcCore is enough
             services.AddMvc()
-                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BoardGameValidator>());
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BoardGameValidator>())
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PaginationQueryValidator>());
 
             services.AddBoardGameService(Configuration);
         }

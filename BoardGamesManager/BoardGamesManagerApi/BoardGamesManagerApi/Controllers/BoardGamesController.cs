@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using BoardGamesManagerApi.Extensions;
+using BoardGamesManagerApi.Model;
+using BoardGamesManagerCore;
 using BoardGamesServices.DTOs;
 using BoardGamesServices.Services.BoardGame;
 using Microsoft.AspNetCore.Http;
@@ -18,21 +20,30 @@ namespace BoardGamesManagerApi.Controllers
     [Route("api/[controller]")]
     public class BoardGamesController : ControllerBase
     {
+        private const int _maxLimit = 500;
+
         private readonly ILogger<BoardGamesController> _logger;
 
-        public BoardGamesController(ILogger<BoardGamesController>? logger)
+        public BoardGamesController(ILogger<BoardGamesController> ? logger)
         {
             _logger = logger ?? NullLogger<BoardGamesController>.Instance;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllGames([FromServices] IBoardGameService boardGameService)
+        public async Task<IActionResult> GetAllGames([FromServices] IBoardGameService boardGameService, [FromQuery] PaginationQuery paginationQuery)
         {
-            var boardGamesDtos = await boardGameService.GetAllBoardGames().ToArrayAsync();
+            _logger.LogInformation("Getting all games, pagination: {pagination}", paginationQuery);
 
-            return HttpContext.JsonShouldBeReturned()
-                ? Ok(new {BoardGames = boardGamesDtos})
-                : Ok(boardGamesDtos);
+            var boardGamesCount = await boardGameService.GetBoardGamesCountAsync();
+            var pagination = paginationQuery.ToPagination(boardGamesCount, _maxLimit);
+
+            var boardGamesDtos = await boardGameService.GetBoardGamesAsync(pagination.PageSize, pagination.Page)
+                .ToArrayAsync();
+
+            Response.AddPaginationHeaders(pagination);
+            return HttpContext.JsonShouldBeReturned() ?
+                Ok(new { BoardGames = boardGamesDtos }) :
+                Ok(boardGamesDtos);
         }
 
     }

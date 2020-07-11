@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BoardGamesManagerCore.Extensions;
 using BoardGamesServices.DTOs;
 using EfCoreData.DbContext;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace BoardGamesServices.Services.BoardGame
             _logger = logger ?? NullLogger<DbBoardGameService>.Instance;
         }
 
-        public IAsyncEnumerable<BoardGameDto> GetAllBoardGames()
+        public IAsyncEnumerable<BoardGameDto> GetBoardGamesAsync(int? limit = null, int? page = null)
         {
             _logger.LogInformation("Getting all BoardGames from a database");
 
@@ -32,6 +33,8 @@ namespace BoardGamesServices.Services.BoardGame
             {
                 return _dbContext.BoardGames
                                  .AsNoTracking()
+                                 .OrderBy(boardGame => boardGame.BoardGameId)
+                                 .Paginated(limit, page)
                                  .AsAsyncEnumerable()
                                  .Select(boardGame => _mapper.Map<BoardGameDto>(boardGame));
             }
@@ -42,7 +45,16 @@ namespace BoardGamesServices.Services.BoardGame
             }
         }
 
-        public async Task<BoardGameDto> GetBoardGameForId(string boardGameId)
+        public async Task<int> GetBoardGamesCountAsync() 
+        {
+            _logger.LogInformation("Getting total number of all BoardGmaes");
+
+            return await _dbContext.BoardGames
+                                 .AsNoTracking()
+                                 .CountAsync();
+        }
+
+        public async Task<BoardGameDto> GetBoardGameForIdAsync(string boardGameId)
         {
             _logger.LogInformation("Getting BoardGame with id {id} from a database", boardGameId);
 
@@ -59,7 +71,7 @@ namespace BoardGamesServices.Services.BoardGame
             }
         }
 
-        public async Task<BoardGameDto> DeleteBoardGameWithId(string boardGameId)
+        public async Task<BoardGameDto> DeleteBoardGameWithIdAsync(string boardGameId)
         {
             _logger.LogInformation("Deleting BoardGame with id {id} from a database", boardGameId);
 
@@ -78,7 +90,7 @@ namespace BoardGamesServices.Services.BoardGame
             }
         }
 
-        public async Task<BoardGameDto> AddBoardGame(BoardGameDto boardGame)
+        public async Task<BoardGameDto> AddBoardGameAsync(BoardGameDto boardGame)
         {
             _logger.LogInformation("Adding BoardGame {boardGame} to a database", boardGame);
 
@@ -96,7 +108,7 @@ namespace BoardGamesServices.Services.BoardGame
             }
         }
 
-        public async Task<BoardGameDto> UpdateBoardGame(BoardGameDto boardGame)
+        public async Task<BoardGameDto> UpdateBoardGameAsync(BoardGameDto boardGame)
         {
             _logger.LogInformation("Updating BoardGame {boardGame} to a database", boardGame);
 

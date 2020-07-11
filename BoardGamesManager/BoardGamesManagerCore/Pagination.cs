@@ -4,16 +4,18 @@ using System.Linq;
 
 namespace BoardGamesManagerCore
 {
-    public struct Pagination
+    public readonly struct Pagination
     {
         public int PageSize { get; }
+        public int Page { get; }
         public int TotalCount { get; }
         public int TotalPages { get; }
 
-        public Pagination(int totalCount, int pageSize)
+        public Pagination(int totalCount, int pageSize, int page)
         {
             TotalCount = totalCount;
             PageSize = pageSize;
+            Page = page > 0 ? page : 0;
             TotalPages = CalculatedTotalPages(totalCount, pageSize);
         }
 
@@ -28,5 +30,5 @@ namespace BoardGamesManagerCore
                 totalCount / pageSize + 1 :
                 totalCount / pageSize;
         }
-    }      
+    }
 }
