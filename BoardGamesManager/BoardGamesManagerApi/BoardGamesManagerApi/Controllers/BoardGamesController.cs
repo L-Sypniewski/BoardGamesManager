@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using BoardGamesManagerApi.Extensions;
 using BoardGamesManagerApi.Model;
-using BoardGamesManagerCore;
-using BoardGamesServices.DTOs;
 using BoardGamesServices.Services.BoardGame;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Models;
 
 namespace BoardGamesManagerApi.Controllers
 {
@@ -20,7 +16,7 @@ namespace BoardGamesManagerApi.Controllers
     [Route("api/[controller]")]
     public class BoardGamesController : ControllerBase
     {
-        private const int _maxLimit = 500;
+        private const int _maxPageSize = 500;
 
         private readonly ILogger<BoardGamesController> _logger;
 
@@ -32,10 +28,10 @@ namespace BoardGamesManagerApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllGames([FromServices] IBoardGameService boardGameService, [FromQuery] PaginationQuery paginationQuery)
         {
-            _logger.LogInformation("Getting all games, pagination: {pagination}", paginationQuery);
+            _logger.LogInformation("Getting all board games, pagination: {pagination}", paginationQuery);
 
             var boardGamesCount = await boardGameService.GetBoardGamesCountAsync();
-            var pagination = paginationQuery.ToPagination(boardGamesCount, _maxLimit);
+            var pagination = paginationQuery.ToPagination(boardGamesCount, _maxPageSize);
 
             var boardGamesDtos = await boardGameService.GetBoardGamesAsync(pagination.PageSize, pagination.Page)
                 .ToArrayAsync();
@@ -46,5 +42,18 @@ namespace BoardGamesManagerApi.Controllers
                 Ok(boardGamesDtos);
         }
 
+        [HttpGet]
+        [Route("{boardGameId:int}")]
+        public async Task<IActionResult> GetGameDetails([FromServices] IBoardGameService boardGameService, [FromRoute, Range(1, int.MaxValue)] int boardGameId)
+        {
+            _logger.LogInformation("Getting board game details for id: {gameId}", boardGameId);
+
+            var boardGame = await boardGameService.GetBoardGameForIdAsync(boardGameId);
+            if (boardGame.HasValue)
+            {
+                return Ok(boardGame.Value);
+            }
+            return NotFound($"BoardGame for id {boardGameId} does not exist");
+        }
     }
 }
