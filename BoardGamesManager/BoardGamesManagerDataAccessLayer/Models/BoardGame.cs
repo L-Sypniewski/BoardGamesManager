@@ -4,7 +4,7 @@
     {
         public int BoardGameId { get; set; }
 
-        private string _name;
+        private string _name = null!;
         public string Name
         {
             get => _name;
