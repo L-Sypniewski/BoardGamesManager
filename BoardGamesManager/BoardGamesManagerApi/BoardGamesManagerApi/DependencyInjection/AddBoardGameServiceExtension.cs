@@ -25,14 +25,13 @@ namespace BoardGamesManagerApi.DependencyInjection
             var boardGamesDbOptions = configuration.GetSection(BoardGamesDbOptions.BoardGamesDb)
                                                    .Get<BoardGamesDbOptions>();
 
-            // TODO Try to change BoardGamesDbOptions.Options to enum
             switch (boardGamesDbOptions.Database)
             {
-                case "SqlServer":
+                case BoardGamesDbOptions.DatabaseType.SqlServer:
                     services.AddDbContext<BoardGamesDbContext>(options =>
                                                                    options.UseSqlServer(boardGamesDbOptions.ConnectionString));
                     break;
-                case "Sqlite":
+                case  BoardGamesDbOptions.DatabaseType.Sqlite:
                     services.AddDbContext<BoardGamesDbContext>(options =>
                                                                    options.UseSqlite(boardGamesDbOptions.ConnectionString));
                     break;

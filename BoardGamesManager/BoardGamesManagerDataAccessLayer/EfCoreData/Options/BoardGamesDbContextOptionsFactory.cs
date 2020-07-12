@@ -1,18 +1,19 @@
 using System;
 using EfCoreData.DbContext;
 using Microsoft.EntityFrameworkCore;
+using static EfCoreData.Options.BoardGamesDbOptions;
 
 namespace EfCoreData.Options
 {
     public sealed class BoardGamesDbContextOptionsFactory
     {
-        private string ConnectionString { get; }
+        private string? ConnectionString { get; }
         private DatabaseType Database { get; }
 
         public BoardGamesDbContextOptionsFactory(BoardGamesDbOptions options)
         {
             ConnectionString = options.ConnectionString;
-            Database = Enum.Parse<DatabaseType>(options.Database);
+            Database = options.Database;
         }
 
         public DbContextOptions<BoardGamesDbContext> Create()
@@ -32,12 +33,6 @@ namespace EfCoreData.Options
             }
 
             return optionsBuilder.Options;
-        }
-
-        private enum DatabaseType
-        {
-            SqlServer,
-            Sqlite
         }
     }
 }
