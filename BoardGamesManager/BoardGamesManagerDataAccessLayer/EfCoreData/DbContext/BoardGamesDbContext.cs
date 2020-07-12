@@ -6,7 +6,7 @@ namespace EfCoreData.DbContext
 {
     public sealed class BoardGamesDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public DbSet<BoardGame> BoardGames { get; set; } = null!;
+        public DbSet<Models.BoardGame> BoardGames { get; set; } = null!;
 
         public BoardGamesDbContext(DbContextOptions<BoardGamesDbContext> options) : base(options)
         {
