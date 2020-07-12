@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BoardGamesManagerApi.DependencyInjection
+namespace BoardGamesServices.Extensions
 {
     public static class AddBoardGameServiceExtension
     {
@@ -31,7 +31,7 @@ namespace BoardGamesManagerApi.DependencyInjection
                     services.AddDbContext<BoardGamesDbContext>(options =>
                                                                    options.UseSqlServer(boardGamesDbOptions.ConnectionString));
                     break;
-                case  BoardGamesDbOptions.DatabaseType.Sqlite:
+                case BoardGamesDbOptions.DatabaseType.Sqlite:
                     services.AddDbContext<BoardGamesDbContext>(options =>
                                                                    options.UseSqlite(boardGamesDbOptions.ConnectionString));
                     break;

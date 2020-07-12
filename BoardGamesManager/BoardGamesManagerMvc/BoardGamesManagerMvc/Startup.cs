@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BoardGamesManagerApi.DependencyInjection;
+using AutoMapper;
+using BoardGamesManagerMvc.Models.Mapping;
+using BoardGamesServices.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,8 +27,8 @@ namespace BoardGamesManagerMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.ConfigureBoardGamesDbContext(Configuration);
+            services.AddAutoMapper(typeof(BoardGamesViewModelMappingProfile));
+            services.AddBoardGameService(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +55,7 @@ namespace BoardGamesManagerMvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=BoardGames}/{action=Index}/{id?}");
             });
         }
     }

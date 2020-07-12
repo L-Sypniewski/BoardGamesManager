@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BoardGamesManagerDataAccessLayer\EfCoreData\EfCoreData.csproj" />
+    <ProjectReference Include="..\..\BoardGamesServices\BoardGamesServices.csproj" />
   </ItemGroup>
 
 </Project>

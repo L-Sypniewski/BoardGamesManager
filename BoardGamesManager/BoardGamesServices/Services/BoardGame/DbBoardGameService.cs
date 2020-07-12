@@ -18,7 +18,7 @@ namespace BoardGamesServices.Services.BoardGame
         private readonly IMapper _mapper;
         private readonly ILogger<DbBoardGameService> _logger;
 
-        public DbBoardGameService(BoardGamesDbContext dbContext, IMapper mapper, ILogger<DbBoardGameService> ? logger = null)
+        public DbBoardGameService(BoardGamesDbContext dbContext, IMapper mapper, ILogger<DbBoardGameService>? logger = null)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -32,11 +32,11 @@ namespace BoardGamesServices.Services.BoardGame
             try
             {
                 return _dbContext.BoardGames
-                    .AsNoTracking()
-                    .OrderBy(boardGame => boardGame.BoardGameId)
-                    .Paginated(limit, page)
-                    .AsAsyncEnumerable()
-                    .Select(boardGame => _mapper.Map<BoardGameDto>(boardGame));
+                                 .AsNoTracking()
+                                 .OrderBy(boardGame => boardGame.BoardGameId)
+                                 .Paginated(limit, page)
+                                 .AsAsyncEnumerable()
+                                 .Select(boardGame => _mapper.Map<BoardGameDto>(boardGame));
             }
             catch (Exception exception)
             {
@@ -45,13 +45,19 @@ namespace BoardGamesServices.Services.BoardGame
             }
         }
 
+        public async Task<bool> BoardGameExists(int boardGameId)
+        {
+            IQueryable<Models.BoardGame> boardGames = _dbContext.BoardGames;
+            return await boardGames.AnyAsync(boardGame => boardGame.BoardGameId == boardGameId);
+        }
+
         public async Task<int> GetBoardGamesCountAsync()
         {
             _logger.LogInformation("Getting total number of all BoardGames");
 
             return await _dbContext.BoardGames
-                .AsNoTracking()
-                .CountAsync();
+                                   .AsNoTracking()
+                                   .CountAsync();
         }
 
         public async Task<BoardGameDto?> GetBoardGameForIdAsync(int boardGameId)
@@ -61,7 +67,7 @@ namespace BoardGamesServices.Services.BoardGame
             try
             {
                 var boardGame = await _dbContext.BoardGames
-                    .FindAsync(boardGameId);
+                                                .FindAsync(boardGameId);
 
                 if (boardGame == null)
                 {
@@ -83,8 +89,9 @@ namespace BoardGamesServices.Services.BoardGame
             try
             {
                 var boardGame = await _dbContext.BoardGames
-                    .FindAsync(boardGameId);
+                                                .FindAsync(boardGameId);
                 _dbContext.BoardGames.Remove(boardGame);
+                await _dbContext.SaveChangesAsync();
 
                 return _mapper.Map<BoardGameDto>(boardGame);
             }
@@ -103,6 +110,7 @@ namespace BoardGamesServices.Services.BoardGame
             {
                 var boardGameEntity = _mapper.Map<Models.BoardGame>(boardGame);
                 await _dbContext.BoardGames.AddAsync(boardGameEntity);
+                await _dbContext.SaveChangesAsync();
 
                 return _mapper.Map<BoardGameDto>(boardGame);
             }
@@ -120,7 +128,7 @@ namespace BoardGamesServices.Services.BoardGame
             try
             {
                 var boardGameEntity = await _dbContext.BoardGames
-                    .FindAsync(boardGame.BoardGameId);
+                                                      .FindAsync(boardGame.BoardGameId);
                 boardGameEntity.Name = boardGame.Name;
                 boardGameEntity.MaxPlayers = boardGame.MaxPlayers;
                 boardGameEntity.MinPlayers = boardGame.MinPlayers;

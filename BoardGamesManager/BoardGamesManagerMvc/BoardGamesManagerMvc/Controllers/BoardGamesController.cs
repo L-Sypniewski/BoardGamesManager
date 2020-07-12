@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BoardGamesManagerMvc.Models;
+using BoardGamesServices.DTOs;
+using BoardGamesServices.Services.BoardGame;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,35 +16,40 @@ namespace BoardGamesManagerMvc.Controllers
 {
     public class BoardGamesController : Controller
     {
-        private readonly BoardGamesDbContext _context;
+        private readonly IMapper _mapper;
 
-        public BoardGamesController(BoardGamesDbContext context)
+        public BoardGamesController(IMapper mapper)
         {
-            _context = context;
+            _mapper = mapper;
         }
 
         // GET: BoardGames
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices] IBoardGameService boardGameService)
         {
-            return View(await _context.BoardGames.ToListAsync());
+            var boardGameDto = await boardGameService.GetBoardGamesAsync().ToArrayAsync();
+            var viewModels = boardGameDto
+                .Select(dto => _mapper.Map<BoardGameDto, BoardGameViewModel>(dto));
+
+            return View(viewModels);
         }
 
         // GET: BoardGames/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details([FromServices] IBoardGameService boardGameService, int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var boardGame = await _context.BoardGames
-                .FirstOrDefaultAsync(m => m.BoardGameId == id);
+            var boardGame = await boardGameService.GetBoardGameForIdAsync(id.Value);
+
             if (boardGame == null)
             {
                 return NotFound();
             }
 
-            return View(boardGame);
+            var viewModel = _mapper.Map<BoardGameDto, BoardGameViewModel>(boardGame.Value);
+            return View(viewModel);
         }
 
         // GET: BoardGames/Create
@@ -54,31 +63,34 @@ namespace BoardGamesManagerMvc.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BoardGameId,Name,MinPlayers,MaxPlayers,MinRecommendedAge")] BoardGame boardGame)
+        public async Task<IActionResult> Create([FromServices] IBoardGameService boardGameService,
+                                                [Bind("BoardGameId,Name,MinPlayers,MaxPlayers,MinRecommendedAge")]
+                                                BoardGameViewModel boardGame)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(boardGame);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(boardGame);
+            if (!ModelState.IsValid) return View(boardGame);
+
+            var dto = _mapper.Map<BoardGameViewModel, BoardGameDto>(boardGame);
+            await boardGameService.AddBoardGameAsync(dto);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BoardGames/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit([FromServices] IBoardGameService boardGameService, int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var boardGame = await _context.BoardGames.FindAsync(id);
+            var boardGame = await boardGameService.GetBoardGameForIdAsync(id.Value);
             if (boardGame == null)
             {
                 return NotFound();
             }
-            return View(boardGame);
+
+            var viewModel = _mapper.Map<BoardGameDto, BoardGameViewModel>(boardGame.Value);
+            return View(viewModel);
         }
 
         // POST: BoardGames/Edit/5
@@ -86,68 +98,65 @@ namespace BoardGamesManagerMvc.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BoardGameId,Name,MinPlayers,MaxPlayers,MinRecommendedAge")] BoardGame boardGame)
+        public async Task<IActionResult> Edit([FromServices] IBoardGameService boardGameService,
+                                              int id, [Bind("BoardGameId,Name,MinPlayers,MaxPlayers,MinRecommendedAge")]
+                                              BoardGameViewModel boardGame)
         {
             if (id != boardGame.BoardGameId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(boardGame);
+
+            try
             {
-                try
-                {
-                    _context.Update(boardGame);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BoardGameExists(boardGame.BoardGameId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var dto = _mapper.Map<BoardGameViewModel, BoardGameDto>(boardGame);
+                await boardGameService.UpdateBoardGameAsync(dto);
             }
-            return View(boardGame);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await BoardGameExists(boardGameService, boardGame.BoardGameId))
+                {
+                    return NotFound();
+                }
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BoardGames/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete([FromServices] IBoardGameService boardGameService, int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var boardGame = await _context.BoardGames
-                .FirstOrDefaultAsync(m => m.BoardGameId == id);
+            var boardGame = await boardGameService.GetBoardGameForIdAsync(id.Value);
             if (boardGame == null)
             {
                 return NotFound();
             }
 
-            return View(boardGame);
+            var viewModel = _mapper.Map<BoardGameDto, BoardGameViewModel>(boardGame.Value);
+            return View(viewModel);
         }
 
         // POST: BoardGames/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed([FromServices] IBoardGameService boardGameService, int id)
         {
-            var boardGame = await _context.BoardGames.FindAsync(id);
-            _context.BoardGames.Remove(boardGame);
-            await _context.SaveChangesAsync();
+            await boardGameService.DeleteBoardGameWithIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BoardGameExists(int id)
+        private static async Task<bool> BoardGameExists(IBoardGameService boardGameService, int id)
         {
-            return _context.BoardGames.Any(e => e.BoardGameId == id);
+            return await boardGameService.BoardGameExists(id);
         }
     }
 }
