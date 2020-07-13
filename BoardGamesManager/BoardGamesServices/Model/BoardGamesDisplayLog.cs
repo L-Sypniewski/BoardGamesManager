@@ -2,17 +2,19 @@ using System;
 
 namespace BoardGamesServices.Model
 {
-    public readonly struct BoardGamesDisplayLog
+    public struct BoardGamesDisplayLog
     {
-        public readonly int BoardGameId;
-        public readonly DateTimeOffset DateTimeOffset;
-        public readonly string Source;
+        public int BoardGameId { get; set; }
+        public DateTimeOffset DisplayDatetime { get; set; }
+        public string Source { get; set; }
 
-        public BoardGamesDisplayLog(int boardGameId, DateTimeOffset dateTimeOffset, string source)
+        public BoardGamesDisplayLog(int boardGameId, DateTimeOffset displayDatetime, string source)
         {
             BoardGameId = boardGameId;
-            DateTimeOffset = dateTimeOffset;
+            DisplayDatetime = displayDatetime;
             Source = source;
         }
+
+        public override string ToString() => $"BoardGameId: {BoardGameId}, DisplayDatetime: {DisplayDatetime}, Source: {Source}";
     }
 }
