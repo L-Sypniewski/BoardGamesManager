@@ -31,7 +31,6 @@ namespace BoardGamesManagerApi
             services.AddControllers()
                     .AddXmlSerializerFormatters();
 
-            //TODO Check if AddMvcCore is enough
             services.AddMvc()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BoardGameValidator>())
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PaginationQueryValidator>());
