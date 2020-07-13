@@ -30,16 +30,16 @@ namespace BoardGamesServicesTest.Services.BoardGame
         }
 
 
-        // TODO Split on two tests?
-        // The first: check if values from DB are passed to mapper
-        // Second: Check if values from mapper are returned
+        // The test might be split into two:
+        // The first: check if values from DB are passed to mapper by calling Verify() from Moq framework
+        // The second: check if values from mapper are returned
         [Fact(DisplayName = "All BoardGames from a database are returned after being mapped when service gets all board games")]
         public async Task All_BoardGames_from_a_database_are_returned_when_after_being_mapped_service_gets_all_board_games()
         {
             _mapperMock.Setup(mock => mock.Map<BoardGameDto>(It.IsAny<Models.BoardGame>()))
                        .Returns<Models.BoardGame>(boardGame => DtoWithName(boardGame.Name));
 
-            _dbContext.BoardGames.AddRange(TestBoardGames); //TODO this line causes stackoverflow on Ubuntu 20.10, works on MacOS
+            await _dbContext.BoardGames.AddRangeAsync(TestBoardGames); //This line causes stackoverflow on Ubuntu 20.10, but it works on the latest MacOS
             await _dbContext.SaveChangesAsync();
 
             var actualBoardGames = await _sut.GetBoardGamesAsync().ToArrayAsync();
