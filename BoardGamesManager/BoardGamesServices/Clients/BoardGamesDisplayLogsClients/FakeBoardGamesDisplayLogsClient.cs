@@ -4,7 +4,7 @@ using BoardGamesServices.Model;
 
 namespace BoardGamesServices.Clients.BoardGamesDisplayLogsClients
 {
-    /* I didn't manage meet the deadline implement a proper mechanism for recording views of each game
+    /* I didn't manage to implement a proper mechanism for recording views of each game in time.
         The idea was to use ElasticSearch sink for Serilog with custom field "Application" and use a REST
         service to obtain the data when displaying board game details. This way I wouldn't have to implement
         and maintain a mechanism for recording view, I'd get that 'for free' while simply logging application events
