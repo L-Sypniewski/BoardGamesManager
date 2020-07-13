@@ -2,17 +2,19 @@ using System;
 
 namespace BoardGamesServices.DTOs
 {
-    public readonly struct BoardGameLastDisplaysDto
+    public struct BoardGameLastDisplaysDto
     {
-        private readonly int _boardGameId;
-        public readonly DateTimeOffset DisplayDatetime;
-        public readonly string Source;
+        public int BoardGameId { get; set; }
+        public DateTimeOffset DisplayDatetime { get; set; }
+        public string Source { get; set; }
 
         public BoardGameLastDisplaysDto(int boardGameId, DateTimeOffset displayDatetime, string source)
         {
-            _boardGameId = boardGameId;
+            BoardGameId = boardGameId;
             DisplayDatetime = displayDatetime;
             Source = source;
         }
+
+        public override string ToString() => $"BoardGameId: {BoardGameId}, DisplayDatetime: {DisplayDatetime}, Source: {Source}";
     }
 }

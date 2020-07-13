@@ -30,7 +30,9 @@ namespace BoardGamesServices.Services.BoardGameLastDisplays
 
             return _boardGamesDisplayLogsClient.BoardGamesDisplayLogsFor(boardGameId)
                                                .Take(limit)
-                                               .Select(displayLog => _mapper.Map<BoardGameLastDisplaysDto>(displayLog));
+                                               .Select(displayLog => new BoardGameLastDisplaysDto(displayLog.BoardGameId,
+                                                                                                  displayLog.DateTimeOffset,
+                                                                                                  displayLog.Source));
         }
     }
 }

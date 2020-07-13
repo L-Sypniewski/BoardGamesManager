@@ -6,6 +6,7 @@ using AutoMapper;
 using BoardGamesManagerMvc.Models;
 using BoardGamesServices.DTOs;
 using BoardGamesServices.Services.BoardGame;
+using BoardGamesServices.Services.BoardGameLastDisplays;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,9 @@ namespace BoardGamesManagerMvc.Controllers
         }
 
         // GET: BoardGames/Details/5
-        public async Task<IActionResult> Details([FromServices] IBoardGameService boardGameService, int? id)
+        public async Task<IActionResult> Details([FromServices] IBoardGameService boardGameService,
+                                                 [FromServices] IBoardGameLastDisplayService lastDisplayService,
+                                                 int? id)
         {
             if (id == null)
             {
@@ -48,7 +51,22 @@ namespace BoardGamesManagerMvc.Controllers
                 return NotFound();
             }
 
-            var viewModel = _mapper.Map<BoardGameDto, BoardGameViewModel>(boardGame.Value);
+            const int lastDisplaysLimit = 10; // should be set via config file, we don't like magic strings
+            var boardGameDto = boardGame.Value;
+            var boardGameId = boardGameDto.BoardGameId;
+            var lastDisplays = await lastDisplayService.LastDisplaysFor(boardGameId, lastDisplaysLimit)
+                                                       .Select(lastDisplay => new LastDisplayViewModel(lastDisplay.Source, lastDisplay.DisplayDatetime))
+                                                       .ToArrayAsync();
+
+            var viewModel = new BoardGameWithLastDisplaysViewModel()
+            {
+                BoardGameId = boardGameId,
+                Name = boardGameDto.Name,
+                MinPlayers = boardGameDto.MinPlayers,
+                MaxPlayers = boardGameDto.MaxPlayers,
+                MinRecommendedAge = boardGameDto.MinRecommendedAge,
+                LastDisplays = lastDisplays
+            };
             return View(viewModel);
         }
 

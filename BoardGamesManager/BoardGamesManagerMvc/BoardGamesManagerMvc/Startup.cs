@@ -6,7 +6,9 @@ using AutoMapper;
 using BoardGamesManagerCore.Model.Validation;
 using BoardGamesManagerMvc.Models.Mapping;
 using BoardGamesManagerMvc.Models.Validation;
+using BoardGamesServices.Clients.BoardGamesDisplayLogsClients;
 using BoardGamesServices.Extensions;
+using BoardGamesServices.Services.BoardGameLastDisplays;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +37,9 @@ namespace BoardGamesManagerMvc
 
             services.AddAutoMapper(typeof(BoardGamesViewModelMappingProfile));
             services.AddBoardGameService(Configuration);
+
+            services.AddScoped<IBoardGameLastDisplayService, BoardGameLastDisplayService>();
+            services.AddScoped<IBoardGamesDisplayLogsClient, FakeBoardGamesDisplayLogsClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

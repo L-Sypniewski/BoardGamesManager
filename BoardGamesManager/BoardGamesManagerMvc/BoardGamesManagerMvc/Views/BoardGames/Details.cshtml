@@ -1,4 +1,4 @@
-@model BoardGameViewModel
+@model BoardGameWithLastDisplaysViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -34,6 +34,15 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MinRecommendedAge)
         </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.LastDisplays)
+        </dt>
+        @for (var index = 0; index < Model.LastDisplays.Length; index++)
+        {
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastDisplays[index])
+            </dd>
+        }
     </dl>
 </div>
 <div>
