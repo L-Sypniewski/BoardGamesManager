@@ -7,14 +7,14 @@ namespace EfCoreData.Options
 {
     public sealed class BoardGamesDbContextOptionsFactory
     {
-        private string? ConnectionString { get; }
-        private DatabaseType Database { get; }
-
         public BoardGamesDbContextOptionsFactory(BoardGamesDbOptions options)
         {
             ConnectionString = options.ConnectionString;
             Database = options.Database;
         }
+
+        private string? ConnectionString { get; }
+        private DatabaseType Database { get; }
 
         public DbContextOptions<BoardGamesDbContext> Create()
         {

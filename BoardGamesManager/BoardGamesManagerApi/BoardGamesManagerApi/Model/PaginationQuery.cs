@@ -11,7 +11,7 @@ namespace BoardGamesManagerApi.Model
         public Pagination ToPagination(int totalCount, int maxPageSize)
         {
             var limit = Limit;
-            var pageSize = limit != null ? (Math.Min(limit.Value, maxPageSize)) : maxPageSize;
+            var pageSize = limit != null ? Math.Min(limit.Value, maxPageSize) : maxPageSize;
             var page = Page;
             return new Pagination(totalCount, pageSize, page ?? 1);
         }

@@ -24,8 +24,8 @@ namespace EfCoreData.Configurations
 
             builder.HasCheckConstraint("max_players_constraint", $"{nameof(BoardGame.MaxPlayers)} >= 1");
 
-            builder.HasCheckConstraint("min_players_lesser_or_equal_to_max_player_constraint", 
-                $"{nameof(BoardGame.MinPlayers)} <= {nameof(BoardGame.MaxPlayers)}");
+            builder.HasCheckConstraint("min_players_lesser_or_equal_to_max_player_constraint",
+                                       $"{nameof(BoardGame.MinPlayers)} <= {nameof(BoardGame.MaxPlayers)}");
 
             // I assumed there might be some games with the same name therefore I consider games to be equal only if they have all properties equal
             builder

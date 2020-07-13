@@ -18,7 +18,7 @@ namespace BoardGamesManagerApi.Controllers
 
         private readonly ILogger<BoardGamesController> _logger;
 
-        public BoardGamesController(ILogger<BoardGamesController> ? logger)
+        public BoardGamesController(ILogger<BoardGamesController>? logger)
         {
             _logger = logger ?? NullLogger<BoardGamesController>.Instance;
         }
@@ -32,25 +32,20 @@ namespace BoardGamesManagerApi.Controllers
             var pagination = paginationQuery.ToPagination(boardGamesCount, _maxPageSize);
 
             var boardGamesDtos = await boardGameService.GetBoardGamesAsync(pagination.PageSize, pagination.Page)
-                .ToArrayAsync();
+                                                       .ToArrayAsync();
 
             Response.AddPaginationHeaders(pagination);
-            return HttpContext.JsonShouldBeReturned() ?
-                Ok(new { BoardGames = boardGamesDtos }) :
-                Ok(boardGamesDtos);
+            return HttpContext.JsonShouldBeReturned() ? Ok(new {BoardGames = boardGamesDtos}) : Ok(boardGamesDtos);
         }
 
         [HttpGet]
         [Route("{boardGameId:int}")]
-        public async Task<IActionResult> GetGameDetails([FromServices] IBoardGameService boardGameService, [FromRoute, Range(1, int.MaxValue)] int boardGameId)
+        public async Task<IActionResult> GetGameDetails([FromServices] IBoardGameService boardGameService, [FromRoute] [Range(1, int.MaxValue)] int boardGameId)
         {
             _logger.LogInformation("Getting board game details for id: {gameId}", boardGameId);
 
             var boardGame = await boardGameService.GetBoardGameForIdAsync(boardGameId);
-            if (boardGame.HasValue)
-            {
-                return Ok(boardGame.Value);
-            }
+            if (boardGame.HasValue) return Ok(boardGame.Value);
             return NotFound($"BoardGame for id {boardGameId} does not exist");
         }
     }

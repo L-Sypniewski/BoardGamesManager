@@ -10,6 +10,8 @@ namespace BoardGamesServicesTest
     {
         private DbConnection? _sqliteInMemoryConnection;
 
+        public void Dispose() => _sqliteInMemoryConnection?.Dispose();
+
         public BoardGamesDbContext CreateDbContext()
         {
             _sqliteInMemoryConnection = new SqliteConnection("Filename=:memory:");
@@ -24,7 +26,5 @@ namespace BoardGamesServicesTest
 
             return dbContext;
         }
-
-        public void Dispose() => _sqliteInMemoryConnection?.Dispose();
     }
 }

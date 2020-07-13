@@ -4,9 +4,10 @@ using Models;
 
 namespace BoardGamesServices.Mapping
 {
-    public class BoardGamesMappingProfile: Profile
+    public class BoardGamesMappingProfile : Profile
     {
-        public BoardGamesMappingProfile() {
+        public BoardGamesMappingProfile()
+        {
             CreateMap<BoardGame, BoardGameDto>();
             CreateMap<BoardGameDto, BoardGame>();
         }

@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using BoardGamesManagerCore.Model.Validation;
 using BoardGamesManagerMvc.Models.Mapping;
 using BoardGamesManagerMvc.Models.Validation;
 using BoardGamesServices.Clients.BoardGamesDisplayLogsClients;
@@ -12,11 +7,9 @@ using BoardGamesServices.Services.BoardGameLastDisplays;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 
 namespace BoardGamesManagerMvc
 {
@@ -66,8 +59,8 @@ namespace BoardGamesManagerMvc
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=BoardGames}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=BoardGames}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace BoardGamesManagerCore
 {
     public readonly struct Pagination
@@ -21,14 +17,9 @@ namespace BoardGamesManagerCore
 
         private static int CalculatedTotalPages(int totalCount, int pageSize)
         {
-            if (totalCount == 0)
-            {
-                return 1;
-            }
+            if (totalCount == 0) return 1;
 
-            return totalCount % pageSize != 0 ?
-                totalCount / pageSize + 1 :
-                totalCount / pageSize;
+            return totalCount % pageSize != 0 ? totalCount / pageSize + 1 : totalCount / pageSize;
         }
     }
 }

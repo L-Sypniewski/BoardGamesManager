@@ -2,11 +2,11 @@ namespace Models
 {
     public class BoardGameBuilder
     {
-        private string _name = "name";
-        private byte _minPlayers = 1;
+        private int _id;
         private byte _maxPlayers = 1;
+        private byte _minPlayers = 1;
         private byte _minRecommendedAge = 3;
-        private int _id = 0;
+        private string _name = "name";
 
         public BoardGameBuilder WithName(string name)
         {

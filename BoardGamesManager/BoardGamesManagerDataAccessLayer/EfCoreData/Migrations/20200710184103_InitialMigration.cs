@@ -7,11 +7,11 @@ namespace EfCoreData.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BoardGames",
-                columns: table => new
+                "BoardGames",
+                table => new
                 {
                     BoardGameId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                                       .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 60, nullable: false),
                     MinPlayers = table.Column<byte>(nullable: false),
                     MaxPlayers = table.Column<byte>(nullable: false),
@@ -27,16 +27,13 @@ namespace EfCoreData.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BoardGames_Name_MaxPlayers_MinPlayers_MinRecommendedAge",
-                table: "BoardGames",
-                columns: new[] { "Name", "MaxPlayers", "MinPlayers", "MinRecommendedAge" },
+                "IX_BoardGames_Name_MaxPlayers_MinPlayers_MinRecommendedAge",
+                "BoardGames",
+                new[] {"Name", "MaxPlayers", "MinPlayers", "MinRecommendedAge"},
                 unique: true);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "BoardGames");
-        }
+        protected override void Down(MigrationBuilder migrationBuilder) => migrationBuilder.DropTable(
+            "BoardGames");
     }
 }

@@ -10,12 +10,12 @@ namespace BoardGamesManagerCoreTest.Model.Validation
 {
     public class BoardGameValidatorTest
     {
-        private readonly BoardGameValidator _sut;
-
         public BoardGameValidatorTest()
         {
             _sut = new BoardGameValidator();
         }
+
+        private readonly BoardGameValidator _sut;
 
         [Theory(DisplayName = "When validated BoardGame is correct validation result should be valid")]
         [ClassData(typeof(BoardGameValidData))]
@@ -90,41 +90,6 @@ namespace BoardGamesManagerCoreTest.Model.Validation
                 .BeFalse($"validation result should be invalid if the minimal recommended age of {nameof(BoardGame)} is not between 3 and 18");
         }
 
-        [Fact(DisplayName = "When validated BoardGame has minimal amount of players lesser than one result should be invalid")]
-        public void When_validated_BoardGame_has_minimal_amount_of_players_lesser_than_one_result_should_be_invalid()
-        {
-            var boardGame = new BoardGameBuilder()
-                            .WithMinPlayers(0)
-                            .Build();
-            ;
-
-            var validationResult = _sut.Validate(boardGame);
-
-
-            validationResult
-                .IsValid
-                .Should()
-                .BeFalse($"{nameof(BoardGame)} must have at least one player");
-        }
-
-        // Copy-pasted the previous test here, but in my opinion trying to DRY test code at all cost may lead to less readable tests
-        [Fact(DisplayName = "When validated BoardGame has maximum amount of players lesser than one result should be invalid")]
-        public void When_validated_BoardGame_has_maximum_amount_of_players_lesser_than_one_result_should_be_invalid()
-        {
-            var boardGame = new BoardGameBuilder()
-                            .WithMaxPlayers(0)
-                            .Build();
-            ;
-
-            var validationResult = _sut.Validate(boardGame);
-
-
-            validationResult
-                .IsValid
-                .Should()
-                .BeFalse($"{nameof(BoardGame)} must have at least one player");
-        }
-
         [Theory(DisplayName = "When validated BoardGame has too long name result should be invalid")]
         [InlineData(61, true)]
         [InlineData(60, false)]
@@ -176,6 +141,41 @@ namespace BoardGamesManagerCoreTest.Model.Validation
                 .IsValid
                 .Should()
                 .BeFalse($"{nameof(BoardGame)} cannot have maximum amount of players lesser than minimum amount of players");
+        }
+
+        // Copy-pasted the previous test here, but in my opinion trying to DRY test code at all cost may lead to less readable tests
+        [Fact(DisplayName = "When validated BoardGame has maximum amount of players lesser than one result should be invalid")]
+        public void When_validated_BoardGame_has_maximum_amount_of_players_lesser_than_one_result_should_be_invalid()
+        {
+            var boardGame = new BoardGameBuilder()
+                            .WithMaxPlayers(0)
+                            .Build();
+            ;
+
+            var validationResult = _sut.Validate(boardGame);
+
+
+            validationResult
+                .IsValid
+                .Should()
+                .BeFalse($"{nameof(BoardGame)} must have at least one player");
+        }
+
+        [Fact(DisplayName = "When validated BoardGame has minimal amount of players lesser than one result should be invalid")]
+        public void When_validated_BoardGame_has_minimal_amount_of_players_lesser_than_one_result_should_be_invalid()
+        {
+            var boardGame = new BoardGameBuilder()
+                            .WithMinPlayers(0)
+                            .Build();
+            ;
+
+            var validationResult = _sut.Validate(boardGame);
+
+
+            validationResult
+                .IsValid
+                .Should()
+                .BeFalse($"{nameof(BoardGame)} must have at least one player");
         }
     }
 }

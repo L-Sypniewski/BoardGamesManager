@@ -1,5 +1,3 @@
-using System;
-
 namespace BoardGamesManagerMvc.Models
 {
     public class ErrorViewModel

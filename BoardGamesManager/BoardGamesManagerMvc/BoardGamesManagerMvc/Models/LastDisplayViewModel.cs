@@ -4,10 +4,6 @@ namespace BoardGamesManagerMvc.Models
 {
     public class LastDisplayViewModel
     {
-        public string Source { get; set; }
-        public DateTimeOffset DisplayDatetime { get; set; }
-
-
         public LastDisplayViewModel()
         {
         }
@@ -17,6 +13,9 @@ namespace BoardGamesManagerMvc.Models
             Source = source;
             DisplayDatetime = displayDatetime;
         }
+
+        public string Source { get; set; }
+        public DateTimeOffset DisplayDatetime { get; set; }
 
         public override string ToString() => $"Source: {Source}, DisplayDatetime: {DisplayDatetime}";
     }

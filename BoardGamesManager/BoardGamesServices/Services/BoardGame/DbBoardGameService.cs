@@ -15,8 +15,8 @@ namespace BoardGamesServices.Services.BoardGame
     public class DbBoardGameService : IBoardGameService
     {
         private readonly BoardGamesDbContext _dbContext;
-        private readonly IMapper _mapper;
         private readonly ILogger<DbBoardGameService> _logger;
+        private readonly IMapper _mapper;
 
         public DbBoardGameService(BoardGamesDbContext dbContext, IMapper mapper, ILogger<DbBoardGameService>? logger = null)
         {
@@ -69,10 +69,7 @@ namespace BoardGamesServices.Services.BoardGame
                 var boardGame = await _dbContext.BoardGames
                                                 .FindAsync(boardGameId);
 
-                if (boardGame == null)
-                {
-                    return null;
-                }
+                if (boardGame == null) return null;
                 return _mapper.Map<BoardGameDto>(boardGame);
             }
             catch (Exception exception)

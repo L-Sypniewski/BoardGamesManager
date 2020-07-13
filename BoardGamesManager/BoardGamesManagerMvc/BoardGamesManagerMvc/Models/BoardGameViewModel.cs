@@ -2,16 +2,6 @@ namespace BoardGamesManagerMvc.Models
 {
     public class BoardGameViewModel
     {
-        public int BoardGameId { get; set; }
-
-        public string Name { get; set; }
-
-        public byte MinPlayers { get; set; }
-
-        public byte MaxPlayers { get; set; }
-
-        public byte MinRecommendedAge { get; set; }
-
         public BoardGameViewModel()
         {
         }
@@ -24,6 +14,16 @@ namespace BoardGamesManagerMvc.Models
             MaxPlayers = maxPlayers;
             MinRecommendedAge = minRecommendedAge;
         }
+
+        public int BoardGameId { get; set; }
+
+        public string Name { get; set; }
+
+        public byte MinPlayers { get; set; }
+
+        public byte MaxPlayers { get; set; }
+
+        public byte MinRecommendedAge { get; set; }
 
         public override string ToString() => $"BoardGameId: {BoardGameId}, Name: {Name}, MinPlayers: {MinPlayers}," +
                                              $" MaxPlayers: {MaxPlayers}, MinRecommendedAge: {MinRecommendedAge}";

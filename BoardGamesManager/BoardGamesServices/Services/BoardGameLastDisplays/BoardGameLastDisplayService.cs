@@ -1,18 +1,18 @@
 using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using BoardGamesServices.Clients.BoardGamesDisplayLogsClients;
 using BoardGamesServices.DTOs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System.Linq;
-using AutoMapper;
 
 namespace BoardGamesServices.Services.BoardGameLastDisplays
 {
     public class BoardGameLastDisplayService : IBoardGameLastDisplayService
     {
         private readonly IBoardGamesDisplayLogsClient _boardGamesDisplayLogsClient;
-        private readonly IMapper _mapper;
         private readonly ILogger<BoardGameLastDisplayService> _logger;
+        private readonly IMapper _mapper;
 
         public BoardGameLastDisplayService(IBoardGamesDisplayLogsClient boardGamesDisplayLogsClient,
                                            IMapper mapper,

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,10 +6,7 @@ using BoardGamesServices.DTOs;
 using BoardGamesServices.Services.BoardGame;
 using BoardGamesServices.Services.BoardGameLastDisplays;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EfCoreData.DbContext;
-using Models;
 
 namespace BoardGamesManagerMvc.Controllers
 {
@@ -39,17 +34,11 @@ namespace BoardGamesManagerMvc.Controllers
                                                  [FromServices] IBoardGameLastDisplayService lastDisplayService,
                                                  int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var boardGame = await boardGameService.GetBoardGameForIdAsync(id.Value);
 
-            if (boardGame == null)
-            {
-                return NotFound();
-            }
+            if (boardGame == null) return NotFound();
 
             const int lastDisplaysLimit = 10; // should be set via config file, we don't like magic strings
             var boardGameDto = boardGame.Value;
@@ -58,7 +47,7 @@ namespace BoardGamesManagerMvc.Controllers
                                                        .Select(lastDisplay => new LastDisplayViewModel(lastDisplay.Source, lastDisplay.DisplayDatetime))
                                                        .ToArrayAsync();
 
-            var viewModel = new BoardGameWithLastDisplaysViewModel()
+            var viewModel = new BoardGameWithLastDisplaysViewModel
             {
                 BoardGameId = boardGameId,
                 Name = boardGameDto.Name,
@@ -71,10 +60,7 @@ namespace BoardGamesManagerMvc.Controllers
         }
 
         // GET: BoardGames/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: BoardGames/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -96,16 +82,10 @@ namespace BoardGamesManagerMvc.Controllers
         // GET: BoardGames/Edit/5
         public async Task<IActionResult> Edit([FromServices] IBoardGameService boardGameService, int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var boardGame = await boardGameService.GetBoardGameForIdAsync(id.Value);
-            if (boardGame == null)
-            {
-                return NotFound();
-            }
+            if (boardGame == null) return NotFound();
 
             var viewModel = _mapper.Map<BoardGameDto, BoardGameViewModel>(boardGame.Value);
             return View(viewModel);
@@ -120,10 +100,7 @@ namespace BoardGamesManagerMvc.Controllers
                                               int id, [Bind("BoardGameId,Name,MinPlayers,MaxPlayers,MinRecommendedAge")]
                                               BoardGameViewModel boardGame)
         {
-            if (id != boardGame.BoardGameId)
-            {
-                return NotFound();
-            }
+            if (id != boardGame.BoardGameId) return NotFound();
 
             if (!ModelState.IsValid) return View(boardGame);
 
@@ -134,10 +111,7 @@ namespace BoardGamesManagerMvc.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await BoardGameExists(boardGameService, boardGame.BoardGameId))
-                {
-                    return NotFound();
-                }
+                if (!await BoardGameExists(boardGameService, boardGame.BoardGameId)) return NotFound();
 
                 throw;
             }
@@ -148,23 +122,18 @@ namespace BoardGamesManagerMvc.Controllers
         // GET: BoardGames/Delete/5
         public async Task<IActionResult> Delete([FromServices] IBoardGameService boardGameService, int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var boardGame = await boardGameService.GetBoardGameForIdAsync(id.Value);
-            if (boardGame == null)
-            {
-                return NotFound();
-            }
+            if (boardGame == null) return NotFound();
 
             var viewModel = _mapper.Map<BoardGameDto, BoardGameViewModel>(boardGame.Value);
             return View(viewModel);
         }
 
         // POST: BoardGames/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed([FromServices] IBoardGameService boardGameService, int id)
         {
@@ -172,9 +141,6 @@ namespace BoardGamesManagerMvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private static async Task<bool> BoardGameExists(IBoardGameService boardGameService, int id)
-        {
-            return await boardGameService.BoardGameExists(id);
-        }
+        private static async Task<bool> BoardGameExists(IBoardGameService boardGameService, int id) => await boardGameService.BoardGameExists(id);
     }
 }

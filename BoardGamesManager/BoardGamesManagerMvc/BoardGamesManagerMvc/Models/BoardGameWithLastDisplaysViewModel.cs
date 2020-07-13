@@ -1,22 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 namespace BoardGamesManagerMvc.Models
 {
     public class BoardGameWithLastDisplaysViewModel
     {
-        public int BoardGameId { get; set; }
-
-        public string Name { get; set; }
-
-        public byte MinPlayers { get; set; }
-
-        public byte MaxPlayers { get; set; }
-
-        public byte MinRecommendedAge { get; set; }
-
-        public LastDisplayViewModel[] LastDisplays { get; set; }
-
         public BoardGameWithLastDisplaysViewModel()
         {
         }
@@ -31,5 +16,17 @@ namespace BoardGamesManagerMvc.Models
             MinRecommendedAge = minRecommendedAge;
             LastDisplays = lastDisplays;
         }
+
+        public int BoardGameId { get; set; }
+
+        public string Name { get; set; }
+
+        public byte MinPlayers { get; set; }
+
+        public byte MaxPlayers { get; set; }
+
+        public byte MinRecommendedAge { get; set; }
+
+        public LastDisplayViewModel[] LastDisplays { get; set; }
     }
 }
