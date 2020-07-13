@@ -9,7 +9,7 @@ namespace BoardGamesManagerApi
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                         .Enrich.WithProperty("Application", "BoardGames MVC")
+                         .Enrich.WithProperty("Application", "BoardGames WebAPI")
                          .WriteTo.Console()
                          .CreateLogger();
 
