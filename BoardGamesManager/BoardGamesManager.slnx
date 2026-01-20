@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/BoardGamesManagerApi/">
+    <Project Path="BoardGamesManagerApi/BoardGamesManagerApi/BoardGamesManagerApi.csproj" />
+  </Folder>
+  <Folder Name="/BoardGamesManagerDataAccessLayer/">
+    <Project Path="BoardGamesManagerDataAccessLayer/EfCoreData/EfCoreData.csproj" />
+    <Project Path="BoardGamesManagerDataAccessLayer/Models/Models.csproj" />
+    <Project Path="BoardGamesManagerDataAccessLayer/ModelsTest/ModelsTest.csproj" />
+  </Folder>
+  <Folder Name="/BoardGamesManagerMvc/">
+    <Project Path="BoardGamesManagerMvc/BoardGamesManagerMvc/BoardGamesManagerMvc.csproj" />
+  </Folder>
+  <Project Path="BoardGamesManagerCore/BoardGamesManagerCore.csproj" />
+  <Project Path="BoardGamesManagerCoreTest/BoardGamesManagerCoreTest.csproj" />
+  <Project Path="BoardGamesServices/BoardGamesServices.csproj" />
+  <Project Path="BoardGamesServicesTest/BoardGamesServicesTest.csproj" />
+</Solution>

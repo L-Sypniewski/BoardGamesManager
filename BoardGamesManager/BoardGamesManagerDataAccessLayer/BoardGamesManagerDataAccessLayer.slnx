@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="EfCoreData/EfCoreData.csproj" />
+  <Project Path="Models/Models.csproj" />
+  <Project Path="ModelsTest/ModelsTest.csproj" />
+</Solution>
