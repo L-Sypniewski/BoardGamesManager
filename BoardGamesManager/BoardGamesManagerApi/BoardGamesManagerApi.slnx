@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../BoardGamesManagerCore/BoardGamesManagerCore.csproj" />
+  <Project Path="../BoardGamesManagerDataAccessLayer/EfCoreData/EfCoreData.csproj" />
+  <Project Path="../BoardGamesManagerDataAccessLayer/Models/Models.csproj" />
+  <Project Path="../BoardGamesServices/BoardGamesServices.csproj" />
+  <Project Path="BoardGamesManagerApi/BoardGamesManagerApi.csproj" />
+</Solution>
